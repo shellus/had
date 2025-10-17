@@ -1,7 +1,15 @@
-# 应用端点配置示例
+# 应用端点配置示例 - 用户服务
 
-# 保底地址 - 所有请求的默认路由
-default_endpoint: "https://api.example.com"
+# 应用名称
+application: user-service
+
+# 默认端点 - 所有请求的默认端点
+default: "https://api.example.com"
+
+# 全局TTL - 客户端缓存有效期（秒）
+# 客户端会在TTL过期后重新请求路由信息
+# 默认值: 300秒
+ttl: 300
 
 # 端点定义 - key为端点名称，value为端点定义
 # 一个application下的端点名称不能重复
@@ -10,6 +18,8 @@ endpoints:
   us-a-prod:
     condition: "environment=prod&vendor=company-a&geo_country=US"
     url: "https://us.a.prod.example.com"
+    # 端点级TTL - 覆盖全局TTL（可选）
+    # ttl: 600
 
   # 较具体的规则：生产环境 + A公司（多个URL）
   a-prod:
@@ -17,6 +27,8 @@ endpoints:
     url:
       - "https://a.prod.example.com"
       - "http://a.prod.example.com"
+    # 多个URL时自动进行负载均衡
+    # weight: 100  # 端点权重（可选，默认10）
 
   # 一般规则：生产环境 + 公版
   prod-public:
