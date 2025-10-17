@@ -100,6 +100,7 @@ IoT设备 → 轻量级后端集群
 | **default_endpoint** | 配置参数 | 字符串 | 保底地址，未命中condition时的默认路由 |
 | **condition** | 配置参数 | 字符串 | 匹配条件，如environment=prod&vendor=company-a |
 | **endpoints** | 响应参数 | 数组 | 端点地址列表，包含权重、负载等信息 |
+| **endpoints.name** | 响应参数 | 字符串 | 端点名称，对应配置中的key，用于健康检查查询 |
 | **endpoints.url** | 响应参数 | 字符串 | 端点地址 |
 | **endpoints.weight** | 响应参数 | 数字 | 端点权重，用于负载均衡，默认为10，越大越优先 |
 | **endpoints.load** | 响应参数 | 数字 | 端点当前负载，0-1之间的小数，由服务器通过健康检查上报 |
@@ -134,14 +135,18 @@ Response:
     },
     "endpoints": [
       {
+        "name": "us-a-prod",
         "url": "https://api-bj1.example.com",
         "status": "healthy",
+        "weight": 100,
+        "load": 0.3
       },
       {
+        "name": "a-prod",
         "url": "https://api-bj2.example.com",
         "weight": 80,
         "load": 0.7,
-        "status": "healthy", 
+        "status": "healthy"
       }
     ]
   }
